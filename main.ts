@@ -19,8 +19,8 @@ function inicio () {
     led.plot(cesta, 4)
 }
 input.onButtonPressed(Button.AB, function () {
-    puntos = 0
     espera = 500
+    puntos = 0
     cesta = 2
     inicio()
     juega = true
@@ -41,8 +41,10 @@ function manzana () {
     while (juega && y <= 4) {
         led.plot(x, y)
         basic.pause(espera)
-        led.unplot(x, y)
-        y = y + 1
+        if (juega) {
+            led.unplot(x, y)
+            y = y + 1
+        }
     }
     if (juega) {
         led.plot(cesta, 4)
@@ -56,9 +58,11 @@ let puntos = 0
 let juega = false
 juega = false
 basic.forever(function () {
-    manzana()
-    if (x == cesta && y == 4) {
-        puntos = puntos + 1
-        espera = espera - 25
+    if (juega) {
+        manzana()
+        if (x == cesta) {
+            puntos = puntos + 1
+            espera = espera - 25
+        }
     }
 })
